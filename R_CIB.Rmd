@@ -1,8 +1,10 @@
 ---
-title: "Hands-on! Introducción al análisis de datos con R"
-output: pdf_document
+title: "Hands-on! Introducción al análisis de datos con R\n8 y 9 de febrero de 2024"
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 2
 fontsize: 12pt
-bibliography: "references.bib"
 author:
     - "Beatriz Fernández Blanco"
     - "Maria Guaita Céspedes"
@@ -20,61 +22,62 @@ knitr::opts_chunk$set(echo = TRUE)
 
 1. ¿Por qué R?
 ==================
-# 1.1 Un poco de historia...
+## 1.1 Un poco de historia...
 Conocer cómo nació R es interesante para comprender sus características. R es un lenguaje de programación creado por Ross Ihaka y Robert Gentleman en los años 90, que eran estadísticos en la Universidad de Auckland (Nueva Zelanda) y querían crear un material mejor para dar el curso de introducción a la estadística a sus alumnos. Así, crearon el lenguaje R, basado en el lenguaje S. R siempre ha sido un proyecto de uso libre desde junio de 1995. El hecho de que fuera creado por estadísticos y no por ingenieros para el desarrollo de software como pasa con otros lenguajes de programación como C y Java, explica que uno de sus puntos fuertes sea la **interactividad** y la **visualización** de los datos.
-```{r, fig.cap="Logo de R y sus creadores",out.width="100%",echo=FALSE}
-knitr::opts_chunk$set(fig.align = TRUE)
-knitr::include_graphics("HistoriaR.png")
-```
+<p>
+![Logo de R y sus creadores](HistoriaR.png)
+<p>
 
 El mantenimiento y desarrollo de R es realizado por el **R Development Core Team**, un equipo de especialistas en ciencias computacionales y estadística provenientes de diferentes instituciones y lugares alrededor del mundo. Este equipo mantiene la versión ***base*** de R que, como su nombre indica, es sobre la cual se crean otras implementaciones de R así como los paquetes que expanden su funcionalidad.
 
+Referencias:  
+
 * https://bookdown.org/jboscomendoza/r-principiantes4/un-poco-de-historia.html
 * http://rafalab.dfci.harvard.edu/dsbook/getting-started.html#fn1
-* Ihaka, R., & Gentleman, R. (1996). R: a language for data analysis and graphics. Journal of computational and graphical statistics, 5(3), 299-314.
+* Ihaka, R., & Gentleman, R. (1996). R: a language for data analysis and graphics. Journal of computational and graphical statistics, 5(3), 299-314.  
 
-# 1.2 Ventajas de usar R
+## 1.2 Ventajas de usar R
 En esta sesión vamos a conocer R como una herramienta para visualizar y analizar datos. Probablemente a estas alturas hayáis empleado algunos programas para el análisis de datos, como puede ser Excel para hacer gráficos y SPSS o Graphpad para la estadística. Veamos algunas ventajas que nos proporciona R:
 
 * Es de uso libre (forma parte del sistema GNU)
-* Se puede usar en diferentes sistemas operativos: Windows, Linux, Mac
-* Hay una gran comunidad de usuarios de R activa y en continuo crecimiento y, por lo tanto, hay muchos recursos para aprender y hacer preguntas
+* Se puede usar en diferentes sistemas operativos: Windows, Linux, Mac.
+* Hay una gran comunidad de usuarios de R activa y en continuo crecimiento y, por lo tanto, hay muchos recursos para aprender y hacer preguntas.
 * Ofrece muchas utilidades en el análisis de datos, en especial en cuanto a interactividad y visualización.
-En general, conocer un lenguaje de programación os facilitará el análisis de datos, sea cuál sea vuestro ámbito de especialización. Además, mejora otras habilidades transversales, como es el pensamiento lógico. Y... el perfil bioinformático/bioestadístico está muy valorado.
+* En general, conocer un lenguaje de programación os facilitará el análisis de datos, sea cuál sea vuestro ámbito de especialización. Además, mejora otras habilidades transversales, como es el pensamiento lógico. Y... el perfil bioinformático/bioestadístico está muy valorado.
 
-!["Lo mejor de los dos mundos"](Imagen2.jpg)
+<p>
+![Lo mejor de los dos mundos](Figure2.png)
+<p>
 
 2. Instalación de R y RStudio
 =============================
-Todo el código y documentación de R está almacenado en CRAN (Comprehensive R Archive Network), que es una red de servidores alrededor del mundo. Es decir, CRAN es el sitio oficial a través del cual descargaremos R. En esta sesión no vamos a instalar R, sino que lo usaremos a través de otra herramienta, pero si queréis descargarlo en casa estos son los pasos que tenéis que seguir.
-```{r , fig.cap="Instalación de R",out.width="100%",echo=FALSE}
-knitr::opts_chunk$set(fig.align = TRUE)
-knitr::include_graphics("Imagen3.png")
-```
-Una vez instalado R podemos abrir la consola para ver qué apariencia tiene. Aquí ya podríamos trabajar. Aprovechamos aquí para explicar algunos conceptos. La consola es el espacio donde R ejecuta las órdenes que le damos. Este símbolo de "mayor que" se llama *prompt*, y significa que R está listo para que le demos una orden.
-```{r , fig.cap="La consola de R",out.width="100%",echo=FALSE}
-knitr::opts_chunk$set(fig.align = TRUE)
-knitr::include_graphics("Imagen4.png")
-```
+Todo el código y documentación de R está almacenado en **CRAN** (Comprehensive R Archive Network), que es una red de servidores alrededor del mundo. Es decir, CRAN es el sitio oficial a través del cual descargaremos R. En esta sesión no vamos a instalar R, sino que lo usaremos a través de otra herramienta, pero si queréis descargarlo en casa estos son los pasos que tenéis que seguir.
+<p>
+![Instalación de R](Figure3.png)
+<p>
+
+Una vez instalado R podemos abrir la consola para ver qué apariencia tiene. Aquí ya podríamos trabajar.
+<p>
+![La consola de R](Figure4.png)
+<p>
 Sin embargo, vamos a aprender a usar R dentro de RStudio, que es una interfaz que nos da muchísimas más funcionalidades que trabajar solo con la consola. La descarga de RStudio se realiza desde Posit.
-```{r , fig.cap="Instalación de RStudio",out.width="100%",echo=FALSE}
-knitr::opts_chunk$set(fig.align = TRUE)
-knitr::include_graphics("Imagen5.png")
-```
+<p>
+![Instalación de RStudio](Figure5.png)
+<p>
 
 3. Exploramos RStudio ¡y escribimos las primeras líneas de código!
 ==================================================================
 En esta sesión trabajaremos en RStudio en la nube a través de Posit Cloud. Únicamente necesitamos registrarnos con una cuenta de correo electrónico. Si bien es práctico para los objetivos de esta sesión, tened en cuenta que Posit Cloud tiene unos recursos limitados en la versión libre, de los cuales destaca que solo permite 25 horas de uso al mes.
 
-Una vez nos hemos registrado podemos abrir un proyecto y empezar a explorar RStudio. Cuando abrimos RStudio vemos varios paneles. A la izquierda tenemos la consola. Vamos a crear nuestro primer script. Un **script** es un bloque de código. Pinchamos en File > New File > R Script. Vemos que podemos crear otro tipo de documentos de R, pero no vamos a explicarlos. Vemos que se abre en el panel superior. A la derecha tenemos otros dos paneles con varias pestañas. A lo alrgo de la sesión veremos qué información nos aportan. 
+Una vez nos hemos registrado podemos abrir un proyecto y empezar a explorar RStudio. Cuando abrimos RStudio vemos varios paneles. A la izquierda tenemos la consola. La consola es el espacio donde R ejecuta las órdenes que le damos. Este símbolo de "mayor que" se llama *prompt*, y significa que R está listo para que le demos una orden. Vamos a crear nuestro primer script. Un **script** es un bloque de código. Pinchamos en File > New File > R Script. Vemos que podemos crear otro tipo de documentos de R, pero no vamos a explicarlos. Vemos que se abre en el panel superior. A la derecha tenemos otros dos paneles con varias pestañas. A lo largo de la sesión veremos qué información nos aportan. 
  
 
 En esta sesión vamos a trabajar con datos reales, pero antes necesitamos conocer cómo escribir en R.
 Vamos a ver algunas líneas de código sencillas para irnos familiarizando.
 El uso más sencillo de R es usarlo como calculadora. Empecemos realizando operaciones sencillas:
 
-# R como calculadora
-## Operadores matemáticos 
+## 3.1. R como calculadora
+### Operadores matemáticos 
 ```{r}
 3+2
 3-2
@@ -86,7 +89,7 @@ El uso más sencillo de R es usarlo como calculadora. Empecemos realizando opera
 ```
 Para ejecutar un comando pinchamos en "Run" o pulsamos la combinación de teclas CTRL+INTRO. Si nos encontramos en la consola es suficiente con INTRO. Observad que lo que ejecutamos en el fichero .R se visualiza en la consola: tanto la instrucción como el resultado, pero ¡atención! lo que escribimos en la consola no se queda guardado.
 
-## Operadores lógicos
+### Operadores lógicos
 Los operadores lógicos nos sirven para hacerle preguntas a R y que nos responda con verdadero o falso.
 ```{r}
 # IMPORTANTE ESCRIBIR DOS VECES "="
@@ -96,10 +99,10 @@ Los operadores lógicos nos sirven para hacerle preguntas a R y que nos responda
 1>0 ## 1 es mayor que 0?
 ```
 
-# Objetos en el entorno de R
+## 3.2. Objetos en el entorno de R
 Existen varios tipos de objetos para almacenar la información.
 
-## Variables:
+### Variables
 Las variables son sencillamente objetos en los que almacenamos información, que puede ser de distinto tipo (números, caracteres,...). La asignación de valores a una variable se puede hacer con la combinación "<-", como si fuera una flecha, o con el signo "=". Por convenio se prefiere la primera. En R no importa si ponemos espacio entre la variable y su valor, cosa que puede ser distinta en otros lenguajes.
 Por ejemplo, podemos asignar el valor 2 a la variable a y el valor 3 a la variable b. Probad a ejecutar este código y veréis cómo quedan asignados los valores a las variables.
 ```{r}
@@ -109,9 +112,9 @@ b < -3  # OJO!
 c <- "Hola"
 e <- "Adios"
 ```
-Además fijáos en el panel superior derecho: las variables han pasado a formar parte del entorno, que es el conjunto de variables que hemos ido definiendo.
+Además fijaos en el panel superior derecho: las variables han pasado a formar parte del entorno, que es el conjunto de variables que hemos ido definiendo.
 <p>
-![](Figure6.png){width=50%}
+!["El entorno de R en RStudio"](Figure6.png){width=50%}
 <p>
 
 Las variables se pueden sobreescribir reasignándoles otro valor.
@@ -125,9 +128,35 @@ Podemos nombrar a las variables como queramos pero es muy importante saber que:
 * Por convención se escriben en **minúscula** y donde querríamos poner un espacio pondremos un guión bajo (o un punto). Estas convenciones pueden ser distintas en otros lenguajes de programación.
 * Intentad que los nombres de vuestras variables sean **representativos** de su significado, tanto por facilitaros vuestro trabajo como por si lo lee otra persona. Puede que creéis muchas variables y necesitaréis saber qué es cada una de ellas.
 
-Las variables que hemos definido hasta ahora solo contienen un valor, pero hay diferentes tipos de variables según el valor o valores que les asignemos.
+Las variables que hemos definido hasta ahora solo contienen un valor, pero hay diferentes tipos de variables según el valor o valores que les asignemos. Además de números y caracteres pueden contener otro tipo de objetos.
 
-## Funciones
+### Vectores
+Los vectores son objetos en los que podemos almacenar más de un valor, aunque estos valores han de ser siempre del mismo tipo. Por ejemplo, no puedo almacenar números y caracteres juntos. Los vectores se crean con la función c(), que significa concatenar, separando los elementos con una coma.
+```{r}
+numeros <- c(1,2,3,4,5)
+saludos<-c("Hola","Buenos días", "Buenas tardes")
+```
+
+Para acceder a los elementos de un vector empleamos los corchetes. Los elementos en R empiezan a contarse desde el 1 (otros lenguajes empiezan en 0). Así accedemos al segundo elemento:
+```{r}
+saludos[2]
+```
+
+Este índice que R reconoce lo podemos usar para ordenar los datos. Vamos a decirle que queremos ver el vector "saludos" pero que nos muestre primero el tercer elemento, luego el primero y finalmente el segundo.
+```{r}
+saludos[c(3,1,2)]
+```
+
+### Conjuntos de datos
+Los conjuntos de datos son tablas con un número de filas y de columnas. Se crean con la función data.frame(), indicando el nombre de cada variable (cada columna) y los valores que contiene (es decir, las observaciones para cada una).
+```{r}
+meses_dias<-data.frame(meses=c("enero","febrero","marzo","abril","mayo","junio",
+                               "julio","agosto","septiembre","octubre",
+                               "noviembre","diciembre"),
+                       dias=c(31,28,31,30,31,30,31,31,30,31,30,31))
+```
+
+### Funciones
 Las funciones las podemos imaginar como máquinas a las que les damos unos datos de entrada y nos devuelven unos datos de salida. R base tiene algunas ya definidas. ¡¡La función help() la más útil de todas!! Otras forman parte de paquetes con otras funcionalidades.
 ```{r}
 log(10)
@@ -148,34 +177,7 @@ media.dos(3,5)
 mean(c(3,5))
 ```
 
-## Vectores
-Los vectores son objetos en los que podemos almacenar más de un valor, aunque estos valores han de ser siempre del mismo tipo. Por ejemplo, no puedo almacenar números y caracteres juntos. Los vectores se crean con la función c(), que significa concatenar, separando los elementos con una coma. Podemso conocer el número de elementos que contiene un vector con la función length().
-```{r}
-numeros <- c(1,2,3,4,5)
-saludos<-c("Hola","Buenos días", "Buenas tardes")
-length(saludos)
-```
-
-Para acceder a los elementos de un vector empleamos los corchetes. Los elementos en R empiezan a contarse desde el 1 (otros lenguajes empiezan en 0). Así accedemos al segundo elemento:
-```{r}
-saludos[2]
-```
-
-Este índice que R reconoce lo podemos usar para ordenar los datos. Vamos a decirle que queremos ver el vector "saludos" pero que nos muestre primero el tercer elemento, luego el primero y finalmente el segundo.
-```{r}
-saludos[c(3,1,2)]
-```
-
-## Conjuntos de datos
-Los conjuntos de datos son tablas con un número de filas y de columnas. Se crean con la función data.frame(), indicando el nombre de cada variable (cada columna) y los valores que contiene (es decir, las observaciones para cada una).
-```{r}
-meses_dias<-data.frame(meses=c("enero","febrero","marzo","abril","mayo","junio",
-                               "julio","agosto","septiembre","octubre",
-                               "noviembre","diciembre"),
-                       dias=c(31,28,31,30,31,30,31,31,30,31,30,31))
-```
-
-# Clases de objetos
+## 3.3. Clases de objetos
 Cualquier objeto que definamos pertenece a una clase. Podemos conocer la clase a la que pertenece un objeto con la función class(). 
 ```{r}
 c="4"
@@ -183,93 +185,93 @@ class(c)
 ```
 Imaginad que realizo la siguiente operación:
 ```{r}
-d<-a+c # No permite sumar nº y letras
-d<-c+e # No permite sumar caracteres
+# d<-a+c # No permite sumar nº y letras
+# d<-c+e # No permite sumar caracteres
 ```
 ¿Por qué me da error? Esto es porque estoy intentando aplicar una acción a un objeto al que no se le puede aplicar: la variable c es de tipo caracter, no numérica. Quizás ahora no le veáis la utilidad, pero hay clases de objetos más complicados y ocasiones en que tras muchas líneas de código ya no se recuerda de qué tipo son algunas variables.
 
-
+## 3.4. Comentarios en el código
+Además de las variables, véis que hay unas líneas que empiezan por #. Esto son comentarios y son líneas que R no ejecuta. Son muy útiles para irnos poniendo notas de lo que hace nuestro código. El código se puede comentar con la combinación de teclas Ctrl + MAYUS + C.
 
 En dos horas que dura este taller es imposible hacer un recopilatorio de todas las operaciones básicas en R, estos son solo algunos ejemplos. Tampoco hay nadie que se sepa todo lo que se puede hacer en R. Lo que sí nos parece importante es que conozcáis el gran libro de R, que no es otra cosa que Google. Lanzad una pregunta de algo que queréis hacer en R pero no sabéis cómo. Por ejemplo yo quiero obtener los valores del 1 al 100 con un intervalo de 2 pero no sé cómo hacerlo. Vamos a buscar "how to create range of values with interval in r". Este es un ejemplo muy sencillo que casi cualquier libro introductorio de R va a cubrir. Pero hay ocasiones en que la cosa se complica más y veréis que las respuestas que da la gente son de lo más variadas. Normalmente no hay una única forma de hacer las cosas, por eso no hay código que esté bien o mal (siempre y cuando haga lo que nosotros queremos).
 
-# Comentarios en el código
-Además de las variables, véis que hay unas líneas que empiezan por #. Esto son comentarios y son líneas que R no ejecuta. Son muy útiles para irnos poniendo notas de lo que hace nuestro código.
 
 4. Análisis de un conjunto de datos 
 ===================================
-Ahora que sabemos un poco de cómo funciona R vamos a seguir profundizando en los conjuntos de datos. Quizás este el tipo de objeto que más podéis usar en esta etapa. Para ello vamos a usar un conjunto de datos reales. Queremos que os imaginéis que es un estudio que estéis haciendo en vuestro TFG, TFM, etc.
-Los cursos de R suelen hacer estas explicaciones con conjuntos de datos que están en librerías de R que podéis instalar, pero preferimos daros algo que os podáis imaginar que es vuestro.
+Ahora que sabemos un poco de cómo funciona R vamos a seguir profundizando en los conjuntos de datos, que creemos que es lo que más podéis usar en esta etapa (TFG, TFM, ect.). Para ello vamos a usar datos reales. Los cursos de R suelen hacer estas explicaciones con conjuntos de datos que están en librerías de R que podéis instalar, pero preferimos daros algo que os podáis imaginar que es vuestro.
 
-
-# 4.1 Descripción del conjunto de datos
-Los datos están disponibles a través del portal **cBioPortal** como "TMB and immunotherapy (MSK,Nat Genet 2019)" (https://www.cbioportal.org/study/summary?id=tmb_mskcc_2018). En la pestaña "Clinical Data" seleccionamos todas las variables y descargamos los datos en formato ".tsv" (**Figura 1**).
-
-```{r cBioportal, fig.cap="Descarga de los datos en cBioPortal",out.width="100%",echo=FALSE}
-knitr::opts_chunk$set(fig.align = TRUE)
-knitr::include_graphics("cBioportal.png")
-```
-Subimos los datos a Posit Cloud. Importamos el documento como "tmb".
-
-#### IMPORTAR CONJUNTOS DE DATOS A PARTIR DE FICHEROS
-* Ficheros Excel, TSV, CSV, TXT (formato de tabla)
-
-FUNCION R BASE: 
-read.delim o read.table
-
-Otros paquetes más especificos (habria que instalarlos):
-library(readr)
-library(readxl)
-library(openxlsx)
-
-###### INSTALACION DE PAQUETES O LIBRERIAS EN R
+## 4.1 Importar datos de Excel (.xlsx)
+Las hojas de cálculo como Excel son muy prácticas para guardar datos y seguramente así lo hagáis. Para leer datos de R en Excel usamos el paquete readxl. Si no está instalado hay que instalarlo y luego cargar el paquete al entorno.
 ```{r}
-install.packages("readxl")
+# install.packages("readxl") # Descomentar esta línea para instalarlo
+library(readxl)
+```
+
+Os proporcionamos unos datos de absorbancia de un ensayo BCA para medir concentración de proteínas. Tenemos las funciones readxl() y readxlsx(). En este caso usamos la función readxls() porque nuestro archivo es .xlsx.
+```{r}
+bca<-read_xlsx("BCA_assay.xlsx",sheet=1,skip = 1)
+str(bca)
+```
+
+Ahora vamos a ver un bloque de código de cómo construir la recta patrón y calcular la concentración de proteínas de cada muestra.
+```{r}
+# 1. Calculamos la media de absorbancia de cada muestra
+bca$media<-rowMeans(bca[,c(2,3)])
+# 2. Restamos a cada media la señal del blanco
+bca$media_sin_blanco<-bca$media-bca$media[bca$nombre=="I"]
+# 3. Necesitamos que la concentración R la lea como un número
+bca$concentracion<-as.numeric(bca$concentracion)
+# 4. Construimos la recta patrón con una regresión lineal (y= a +bx)
+plot(bca$concentracion,bca$media_sin_blanco)
+linear.model<-lm(media_sin_blanco ~ concentracion, data=bca[1:9,])
+a<-linear.model$coefficients[1]
+b<-linear.model$coefficients[2]
+# 5. Calculamos la concentración de cada muestra
+bca$concentracion[c(10,11)]<-(bca$media_sin_blanco[c(10,11)]-a)/b
+
 ```
 
 
+## 4.2 Importar datos de un archivo tabulado (.tsv)
+El conjunto de datos con el que vamos a trabajar ahora lo hemos obtenido a través del portal **cBioPortal**. cBioPortal contiene datos de genómica en cáncer y su creación y mantenimiento es del Memorial Sloan Kettering Cancer Center. El conjunto de datos está disponible como "TMB and immunotherapy (MSK,Nat Genet 2019)" (https://www.cbioportal.org/study/summary?id=tmb_mskcc_2018). Podéis descargarlo desde el repositorio de github o en cBioPortal en la pestaña "Clinical Data" seleccionando todas las variables y descargando los datos en formato ".tsv".  
+
+<p>
+!["Descarga de los datos en cBioPortal"](Figure7.png){width=100%}
+<p>
+Ahora subimos los datos a Posit Cloud e importamos el documento como "tmb". En R base podemos hacerlo con las funciones read.delim() o read.table(). La función read.delim() suele ser más lista que nosotros y detectar el tipo de separador que delimita las columnas.
 ```{r}
 # Dos opciones igual de válidas:
 tmb<-read.delim("tmb_mskcc_2018_clinical_data.tsv")
 # Con read.table obligatorio poner el separador
 tmb<-read.table("tmb_mskcc_2018_clinical_data.tsv",header=TRUE,sep="\t")
-# ¿Y si fuera un excel? readxl: read_excel(),read_xls(),read_xlsx()
 ```
+Aunque aquí solo vamos a ver los ficheros .xlsx y .tsv también podemos encontrarnos ficheros .csv (delimitados por comas) y .txt (formato plano). Tenéis que tener esto en cuenta para leer cada archivo correctamente.
+Además hay paquetes fuera de R base que también sirven para leer archivos, como **readr** y **openslsx**.
 
-Todas las funciones de lectura de ficheros Rbase:
-* read.table
-* read.csv
-* read.delim (...)
 
-```{r}
-help(read.delim) # Funciones de lectura de Rbase y sus parametros.
-```
+Este es un conjunto de datos genómicos y de supervivencia dentro del proyecto Mutation Profiling of Actionable Cancer Targets (MSK-IMPACT) del Memorial Sloan Kettering Cancer Center (MSKCC). En él se recogen datos pacientes de cáncer en estadios avanzados a los que se les ha realizado una secuenciación de exoma con el objetivo de relacionar la carga mutacional con la respuesta a inhibidores de puntos de control inmunitarios (ICI). Los ICI son anticuerpos contra determinadas dianas, como CTLA4 y PD-1/PDL.1 y supusieron una revolución en el tratamiento de pacientes en estadios avanzados. Sin embargo, la respuesta a largo plazo solo es efectiva en algunos pacientes, por lo que se necesitan biomarcadores para predecir qué pacientes se pueden beneficiar de ellos. En concreto, este estudio tenía por objetivo estudiar en una cohorte amplia de pacientes si la carga mutacional estaba relacionada con la respuesta a estos tratamientos, algo que se había observado en cohortes más pequeñas.
 
-Este es un conjunto de datos genómicos y de supervivencia dentro del proyecto Mutation Profiling of Actionable Cancer Targets (MSK-IMPACT) del Memorial Sloan Kettering Cancer Center (MSKCC) [@samstein_tumor_2019]. En él se recogen datos pacientes de cáncer en estadios avanzados a los que se les ha realizado una secuenciación de exoma con el objetivo de relacionar la carga mutacional con la respuesta a inhibidores de puntos de control inmunitarios (ICI). Los ICI son anticuerpos contra determinadas dianas, como CTLA4 y PD-1/PDL.1 y supusieron una revolución en el tratamiento de pacientes en estadios avanzados. Sin embargo, la respuesta a largo plazo solo es efectiva en algunos pacientes, por lo que se necesitan biomarcadores para predecir qué pacientes se pueden beneficiar de ellos. En concreto, este estudio tenía por objetivo estudiar en una cohorte amplia de pacientes si la carga mutacional estaba relacionada con la respuesta a estos tratamientos, algo que se había observado en cohortes más pequeñas.
-
-# 4.2. Análisis descriptivo
-Vamos a comenzar explorando el conjunto de datos y también vamos a ir analizando algunas variables para ir incorporando nuevos conceptos.
+### 4.2.1 Análisis descriptivo
+En cualquier análisis de datos, antes de hacer cualquier análisis estadístico debemos hacer un análisis descriptivo, una exploración de nuestros datos. Vamos a comenzar explorando el conjunto de datos y también vamos a ir analizando algunas variables para ir incorporando nuevos conceptos. Podemos comprobar en primer lugar que R ha reconocido este objeto como data.frame. También podemos ver la estructura del mismo.
 ```{r}
 class(tmb) # vemos que R lo reconoce como data.frame
 str(tmb) # estructura del conjunto de datos
-tmb$Cancer.Type # acceder a las variables
-class(tmb$tmb$Cancer.Type)
 ```
+
 **PREGUNTA DIRIGIDA 1**. Sabiendo cómo se accede a las variables y recordando que la media se puede calcular con la función mean(), ¿sabríais decirme cuál es la media de la variable Age.at.Which.Sequencing.was.Reported..Days.?
-```{r}
-# Más detalles sobre el conjunto de datos
-dim(tmb)
-colnames(tmb)
-rownames(tmb)
-```
-# Filtrar una variable []
+
+#### Filtrar una variable  
 Supongamos que me interesa conocer cuál ha sido la media de supervivencia de los pacientes vivos y los exitus.
 ```{r}
 mean(tmb$Overall.Survival..Months.)
 mean(tmb$Overall.Survival..Months.[tmb$Overall.Survival.Status=="1:DECEASED"])
 mean(tmb$Overall.Survival..Months.[tmb$Overall.Survival.Status=="0:LIVING"])
 ```
+
 **PREGUNTA DIRIGIDA 2**.  Ahora que sabemos cómo filtrar una variable, ¿cuál es la media de la variable Overall.Survival..Months. en mujeres?
-# Función summary()
+
+#### Función summary()  
+Esta pregunta la podríamos haber resuelto también con la función summary(), que nos devuelve un resumen de las características de una variable.
 ```{r}
 summary(tmb$Overall.Survival..Months.)
 summary(tmb$Overall.Survival..Months.[tmb$Overall.Survival.Status=="1:DECEASED"])
@@ -278,7 +280,8 @@ summary(tmb$Overall.Survival..Months.[tmb$Overall.Survival.Status=="0:LIVING"])
 range(tmb$Overall.Survival..Months.[tmb$Overall.Survival.Status=="0:LIVING"])
 ```
 
-# Gráficos de frecuencia: funciones table() y barplot()
+#### Gráficos de frecuencia: funciones table() y barplot()  
+Cuando hacemos una exploración de datos es muy habitual que queramos obtener una tabla de frecuencias. Esto lo conseguimos con la función table(). Esta tabla la podemos usar para crear un gráfico de frecuencias con la función barplot.
 ```{r, fig.align=TRUE,fig.height=5}
 par(mfrow=c(1,2))
 # Sexo
@@ -305,8 +308,9 @@ age.bar<-barplot(age.freq,
 text(age.bar, age.freq+20, paste0(round(age.freq/sum(age.freq)*100), "%") ,cex=1)
 ```
 
-##### PALETAS DE COLORES:
-Tambien acepta sistema HEX and RGB
+#### El color en los gráficos  
+Para cambiar los colores de nuestros gráficos R cuenta con varios recursos. Si hacéis una búsqueda en internet de "R color sheet" os encontraréis un pequeño manual con todas las posibilidades. Vamos a ver algunas de ellas.
+
 ```{r, fig.align=TRUE,fig.height=5}
 age.bar<-barplot(age.freq,
         col=c("#FF99FF","#0066FF","#00FF4D","#FF9900", "#AA4371"), # 1 color por grupo, 5 grupos
@@ -317,10 +321,11 @@ age.bar<-barplot(age.freq,
         )
 ```
 
-## Colores predeterminados:
-heat.colors
-terrain.colors
-topo.colors
+##### Colores predeterminados:  
+
+* heat.colors
+* terrain.colors
+* topo.colors
 
 ```{r, fig.align=TRUE,fig.height=5}
 age.bar<-barplot(age.freq,
@@ -332,9 +337,9 @@ age.bar<-barplot(age.freq,
         )
 ```
 
-## Paletas predefinidas
+##### Paletas predefinidas  
 ```{r}
-install.packages("RColorBrewer")
+# install.packages("RColorBrewer") # descomentar para instalar
 library(RColorBrewer)
 ```
 
@@ -366,30 +371,21 @@ text(age.bar, age.freq+20, paste0(round(age.freq/sum(age.freq)*100), "%") ,cex=1
 
 
 
-# Gráfico de cajas y bigotes: función boxplot()
+#### Gráfico de cajas y bigotes: función boxplot()  
+Otro gráfico importante son los g´raficos de cajas y bigotes para ver la dispersión y simetría de nuestros datos.
 ```{r}
 boxplot(tmb$TMB..nonsynonymous.~tmb$Overall.Survival.Status)
 ```
 
-# Gráfico de cajas y bigotes: solución con ggplot2
-Este apartado nos sirve para introducir el paquete ggplot2, que nos ofrece muchas posibilidades para crear gráficos.
-
-Esta plantilla te explica de forma resumida las principales funciones de ggplot:
-https://www.maths.usyd.edu.au/u/UG/SM/STAT3022/r/current/Misc/data-visualization-2.1.pdf
-
-
-Boxplot: geom_boxplot
-Barplot: geom_bar
-Dotplot: geom_point
-
-1) Instalar la libreria
+#### Gráficos con ggplot2  
+Como veis, estamos usando R base para hacer los gráficos. Sin embargo, podemos añadir más características usando ggplot2. En [<span style="color:blue">esta plantilla</span>](https://www.maths.usyd.edu.au/u/UG/SM/STAT3022/r/current/Misc/data-visualization-2.1.pdf) se explica de forma resumida las principales funciones de ggplot.
+Instalamos la librería para poder usarla.
 ```{r}
-install.packages("ggplot2")
+# install.packages("ggplot2") # Descomentar esta línea para instalarla
 library(ggplot2)
 ```
-
-Google: ggplot cheat sheet (https://www.maths.usyd.edu.au/u/UG/SM/STAT3022/r/current/Misc/data-visualization-2.1.pdf)
-## GGPLOT2: BOXPLOT
+Vamos a ver cómo hacer tres tipos de gráficos con ggplot2.
+##### ggplot2: boxplot  
 ```{r}
 
 ggplot(data=tmb,
@@ -425,7 +421,7 @@ ggplot(data=tmb,
   labs(y="Supervivencia global (meses)",x=" ")
 ```
 
-## GGPLOT2: DOTPLOT
+##### ggplot2: dotplot  
 ```{r}
 ## Mostrar los datos filtrados:
 ggplot(data=tmb[1:20,],
@@ -456,7 +452,7 @@ ggplot(data=tmb[1:20,],
 
 ```
 
-## GGPLOT2: BARPLOT
+##### ggplot2: barplot  
 ```{r}
 ggplot(data=tmb,
        aes(x=Cancer.Type, fill=Cancer.Type)) +
@@ -485,27 +481,24 @@ ggplot(data=tmb,
   scale_fill_brewer(palette = "Paired") +
   xlab("Tipo de Cancer") +
   ylab("Nº de Muestras") +
-  ggtitle("Grafico de Barras", subtitle= "Taller de R CIB 2023")
+  ggtitle("Grafico de Barras", subtitle= "Taller de R CIB 2024")
 
 
 ```
 
 
-## GGSAVE
-Formatos: "pdf", "jpeg", "tiff", "png", "bmp", "svg" or "wmf"
-Tamaños: width, height, units	
-Plot size in units ("in", "cm", "mm", or "px")
-Resolución: dpi  
+#### Guardar gráficos: ggsave()  
+Para guardar nuestros gráficos nos vamos a la pestaña "plots" y desde ahí lo podemos exportar en el formato que queramos. Pero puede que no queramos estar exportando nuestros gráficos manualmente, sino implementarlo dentro de un bloque de código. La función ggsave() nos permite exportar gráficos creados con ggplot2 en varios formatos (pdf, jpeg, tiff, png, ...). Le podremos especificar el ancho, la altura y las unidades (in, cm, mm, px), así como la resolución (dpi).
+
 ```{r}
-help(ggsave)
-ruta_file_name = ""
-ggsave(ruta_file_name,
-       plot=last_plot(),
-       device = "png")
+# No ejecutar
+# ruta_file_name = ""
+# ggsave(ruta_file_name,
+#        plot=last_plot(),
+#        device = "png")
 
 ```
 
-############# PREGUNTAS DIRIGIDAS:
 **PREGUNTA DIRIGIDA 3**. Os dejamos un rato para que hagáis un gráfico de barras para la variable Drug.Type. Queremos enseñar de forma gráfica cuál fue la inmunoterapia de elección más frecuente en esta cohorte.
 
 ```{r, fig.height=7}
@@ -520,7 +513,8 @@ drug.bar<-barplot(drug.freq,
         )
 text(drug.bar, drug.freq+20, paste0(round(drug.freq/sum(drug.freq)*100),"%") ,cex=1)
 ```
-** PREGUNTA DIRIGIDA 4**. Intentad hacer un gráfico de cajas y bigotes para la variable TMB..nonsynonymous. según el tipo de tumor. Primero hacedlo sencillo ¿Veis alguna tendencia?
+
+**PREGUNTA DIRIGIDA 4**. Intentad hacer un gráfico de cajas y bigotes para la variable TMB..nonsynonymous. según el tipo de tumor. Primero hacedlo sencillo ¿Veis alguna tendencia?
 
 ```{r,fig.height=5}
 # Carga mutacional
@@ -589,6 +583,8 @@ Para acabar, os queremos mostrar algunas publicaciones que mencionan que sus fig
 Un recurso muy sencillo, gratis y eficaz es swirl, que es un paquete para aprender R dentro de R. La instalación de swirl se realiza con install.packages(). Podéis encontrar las instrucciones en [<span style="color:blue">este enlace</span>](https://swirlstats.com/students.html).
 ```{r}
 # install.packages("swirl")
+# library(swirl)
+# swirl()
 ```
 También hay mucho material disponible en internet. Algunas recomendaciones:
 
