@@ -113,39 +113,38 @@ summary(tmb$Overall.Survival..Months.[tmb$Overall.Survival.Status=="0:LIVING"])
 range(tmb$Overall.Survival..Months.[tmb$Overall.Survival.Status=="0:LIVING"])
 
 par(mfrow=c(1,2))
+
+#### Graficos Rbase
+
+#### Gráfico de cajas y bigotes: función boxplot() ####
+boxplot(tmb$TMB..nonsynonymous.~tmb$Overall.Survival.Status)
+
 # Sexo
 sex.freq<-table(tmb$Sex)
 barplot(sex.freq) # Lo más sencillo
 sex.bar<-barplot(sex.freq,
-                 col=c("blue","red"),
+                 col=c("blue","red"), # 1 color por cada grupo que se quiere representar
                  xlab="Sexo",
                  ylab="Número de pacientes",
-                 ylim = c(0,max(sex.freq)+200),
+                 ylim = c(0,max(sex.freq)+200), # Limite eje Y
 ) # Un poco más bonito
 text(x=sex.bar, y=sex.freq+20,
-     labels=paste0(round(sex.freq/sum(sex.freq)*100),"%") ,cex=1)
+     labels=paste0(round(sex.freq/sum(sex.freq)*100),"%") ,cex=1) # Etiqueta de porcentaje
 
 # Edad
 age.freq<-table(tmb$Age.Group.at.Diagnosis.in.Years)[c(1,3,4,5,2)]
 age.bar<-barplot(age.freq,
-                 col=brewer.pal(5, "Set3"),
+                 col=c("#FF99FF","#0066FF","#00FF4D","#FF9900", "#AA4371"), # 1 color por grupo, 5 grupos
                  xlab="Edad al diagnóstico (años)",
                  ylab="Número de pacientes",
-                 ylim = c(0,max(age.freq)+30),
+                 ylim = c(0,max(age.freq)+30), 
                  cex.names=0.6
 )
 text(age.bar, age.freq+20, paste0(round(age.freq/sum(age.freq)*100), "%") ,cex=1)
 
 #### El color en los gráficos ####
-age.bar<-barplot(age.freq,
-                 col=c("#FF99FF","#0066FF","#00FF4D","#FF9900", "#AA4371"), # 1 color por grupo, 5 grupos
-                 xlab="Edad al diagnóstico (años)",
-                 ylab="Número de pacientes",
-                 ylim = c(0,max(age.freq)+30),
-                 cex.names=0.6
-)
-
 ##### Colores predeterminados ####
+# heat.colors(), topo.colors(), terrain.colors(),rainbow(),
 age.bar<-barplot(age.freq,
                  col=heat.colors(5), ## Indicamos el nº de colores que necesitamos
                  xlab="Edad al diagnóstico (años)",
@@ -156,42 +155,48 @@ age.bar<-barplot(age.freq,
 
 ##### Paletas predefinidas ####
 # install.packages("RColorBrewer") # descomentar para instalar
-library(RColorBrewer)
+library(RColorBrewer) # R color brewer cheat sheet
 display.brewer.all(colorblindFriendly = TRUE)
+
+# R color brewer cheat sheet (nombres de las paletas y opciones de colores)
 
 # Edad
 age.freq<-table(tmb$Age.Group.at.Diagnosis.in.Years)[c(1,3,4,5,2)]
 age.bar<-barplot(age.freq,
-                 col=brewer.pal(5, "Set3"),
+                 col=brewer.pal(5, "Blues"), # brewer.pal(5, "RdBu"); brewer.pal(5, "Set3"); brewer.pal(5, "Pastel2")
                  xlab="Edad al diagnóstico (años)",
                  ylab="Número de pacientes",
                  ylim = c(0,max(age.freq)+30),
                  cex.names=0.6
 )
 
-#### Gráfico de cajas y bigotes: función boxplot() ####
-boxplot(tmb$TMB..nonsynonymous.~tmb$Overall.Survival.Status)
+
 
 #### Gráficos con ggplot2 ####
 # install.packages("ggplot2") # Descomentar esta línea para instalarla
-library(ggplot2)
+library(ggplot2) 
+
 ##### ggplot2: boxplot ####
+# Capa base
 ggplot(data=tmb,
        aes(x=Overall.Survival.Status,y=Overall.Survival..Months.))+
-  geom_boxplot()
+  geom_boxplot() # Agregar capa de caja
 
+# Personalizar etiquetas de los ejes
 ggplot(data=tmb,
        aes(x=Overall.Survival.Status,y=Overall.Survival..Months.))+
   geom_boxplot() +
   labs(y="Supervivencia global (meses)",x=" ") +
   theme(text=element_text(size=10))
 
+# Eliminar los outliers
 ggplot(data=tmb,
        aes(x=Overall.Survival.Status,y=Overall.Survival..Months.))+
   geom_boxplot(outlier.shape = NA) +
   labs(y="Supervivencia global (meses)",x=" ") +
   theme(text=element_text(size=10))
 
+# Añadir color en función de una tercera variable
 ggplot(data=tmb,
        aes(x=Overall.Survival.Status,y=Overall.Survival..Months.),
        fill=factor(Overall.Survival.Status))+
@@ -210,13 +215,15 @@ ggplot(data=tmb,
 
 
 ##### ggplot2: dotplot ####
-## Mostrar los datos filtrados:
-ggplot(data=tmb[1:20,],
+## Mostrar los datos filtrados: Dibujar un subconjunto de datos
+# Añadir leyenda con color: por defecto a la derecha
+ggplot(data=tmb[1:20,], 
        aes(y=Sample.coverage, x=Tumor.Purity, color=Sample.Type)) +
-  geom_point(size=3) +
+  geom_point(size=3) + # capa de puntos tamaño 3
   theme(text=element_text(size=10))+
   labs(y="Cobertura",x="Pureza Tumoral")
 
+# Posiciones de la leyenda 
 ggplot(data=tmb[1:20,],
        aes(y=Sample.coverage, x=Tumor.Purity, color=Sample.Type)) +
   geom_point(size=3) +
@@ -234,20 +241,22 @@ ggplot(data=tmb[1:20,],
        aes(y=Sample.coverage, x=Tumor.Purity, color=Sample.Type)) +
   geom_point(size=3) +
   scale_color_manual(values = cols) +
-  theme(text=element_text(size=10), legend.position = c(0.1, 0.9))+
+  theme(text=element_text(size=10), legend.position = c(0.1, 0.9))+ # coordenadas de leyenda
   labs(y="Cobertura",x="Pureza Tumoral")
 
 
 ##### ggplot2: barplot ####
+# Capa base
 ggplot(data=tmb,
        aes(x=Cancer.Type, fill=Cancer.Type)) +
   geom_bar() 
 
 # The value of hjust (horizontal) and vjust (vertical) are only defined between 0 and 1:
 
-# 0 means left-justified
-# 1 means right-justified
+# 0 : justificado izquierda
+# 1 : justificado derecha
 
+# Orientación etiquetas eje X
 ggplot(data=tmb,
        aes(x=Cancer.Type, fill=Cancer.Type)) +
   geom_bar() +
@@ -259,6 +268,7 @@ ggplot(data=tmb,
   theme(axis.text.x = element_text(angle = 50, hjust=1)) +
   scale_fill_manual(values = topo.colors(11)) 
 
+# Barras Horizontales
 ggplot(data=tmb,
        aes(x=Cancer.Type, fill=Cancer.Type)) +
   geom_bar() +
@@ -274,6 +284,8 @@ ggplot(data=tmb,
 # ggsave(ruta_file_name,
 #        plot=last_plot(),
 #        device = "png")
+# help(ggsave)
+
 
 # PREGUNTA DIRIGIDA 3. Os dejamos un rato para que hagáis un gráfico de barras 
 # para la variable Drug.Type. Queremos enseñar de forma gráfica cuál fue la 
