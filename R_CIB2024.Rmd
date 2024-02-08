@@ -280,6 +280,15 @@ summary(tmb$Overall.Survival..Months.[tmb$Overall.Survival.Status=="0:LIVING"])
 range(tmb$Overall.Survival..Months.[tmb$Overall.Survival.Status=="0:LIVING"])
 ```
 
+#### Graficos Rbase
+
+#### Gráfico de cajas y bigotes: función boxplot()  
+Otro gráfico importante son los g´raficos de cajas y bigotes para ver la dispersión y simetría de nuestros datos.
+```{r}
+boxplot(tmb$TMB..nonsynonymous.~tmb$Overall.Survival.Status)
+```
+
+
 #### Gráficos de frecuencia: funciones table() y barplot()  
 Cuando hacemos una exploración de datos es muy habitual que queramos obtener una tabla de frecuencias. Esto lo conseguimos con la función table(). Esta tabla la podemos usar para crear un gráfico de frecuencias con la función barplot.
 ```{r, fig.align=TRUE,fig.height=5}
@@ -288,7 +297,7 @@ par(mfrow=c(1,2))
 sex.freq<-table(tmb$Sex)
 barplot(sex.freq) # Lo más sencillo
 sex.bar<-barplot(sex.freq,
-        col=c("blue","red"),
+        col=c("blue","red"), # 1 color por cada grupo que se quiere representar
         xlab="Sexo",
         ylab="Número de pacientes",
         ylim = c(0,max(sex.freq)+200),
@@ -299,12 +308,12 @@ text(x=sex.bar, y=sex.freq+20,
 # Edad
 age.freq<-table(tmb$Age.Group.at.Diagnosis.in.Years)[c(1,3,4,5,2)]
 age.bar<-barplot(age.freq,
-        col=brewer.pal(5, "Set3"),
-        xlab="Edad al diagnóstico (años)",
-        ylab="Número de pacientes",
-        ylim = c(0,max(age.freq)+30),
-        cex.names=0.6
-        )
+                 col=c("#FF99FF","#0066FF","#00FF4D","#FF9900", "#AA4371"), # 1 color por grupo, 5 grupos
+                 xlab="Edad al diagnóstico (años)",
+                 ylab="Número de pacientes",
+                 ylim = c(0,max(age.freq)+30), 
+                 cex.names=0.6
+)
 text(age.bar, age.freq+20, paste0(round(age.freq/sum(age.freq)*100), "%") ,cex=1)
 ```
 
@@ -326,8 +335,10 @@ age.bar<-barplot(age.freq,
 * heat.colors
 * terrain.colors
 * topo.colors
+* rainbow.colors
 
 ```{r, fig.align=TRUE,fig.height=5}
+# heat.colors(), topo.colors(), terrain.colors(),rainbow(),
 age.bar<-barplot(age.freq,
         col=heat.colors(5), ## Indicamos el nº de colores que necesitamos
         xlab="Edad al diagnóstico (años)",
@@ -338,6 +349,7 @@ age.bar<-barplot(age.freq,
 ```
 
 ##### Paletas predefinidas  
+R colorbrewer cheat sheet contiene el resumen de colores y paletas predefinidas del paquete
 ```{r}
 # install.packages("RColorBrewer") # descomentar para instalar
 library(RColorBrewer)
@@ -355,26 +367,17 @@ Otras opciones de colores dentro de BrewerColors:
 display.brewer.all(colorblindFriendly = TRUE)
 ```
 
-
 ```{r}
 # Edad
 age.freq<-table(tmb$Age.Group.at.Diagnosis.in.Years)[c(1,3,4,5,2)]
 age.bar<-barplot(age.freq,
-        col=brewer.pal(5, "Set3"),
+        col=brewer.pal(5, "Blues"), # brewer.pal(5, "RdBu"); brewer.pal(5, "Set3"); brewer.pal(5, "Pastel2")
         xlab="Edad al diagnóstico (años)",
         ylab="Número de pacientes",
         ylim = c(0,max(age.freq)+30),
         cex.names=0.6
         )
 text(age.bar, age.freq+20, paste0(round(age.freq/sum(age.freq)*100), "%") ,cex=1)
-```
-
-
-
-#### Gráfico de cajas y bigotes: función boxplot()  
-Otro gráfico importante son los g´raficos de cajas y bigotes para ver la dispersión y simetría de nuestros datos.
-```{r}
-boxplot(tmb$TMB..nonsynonymous.~tmb$Overall.Survival.Status)
 ```
 
 #### Gráficos con ggplot2  
@@ -384,37 +387,122 @@ Instalamos la librería para poder usarla.
 # install.packages("ggplot2") # Descomentar esta línea para instalarla
 library(ggplot2)
 ```
-Vamos a ver cómo hacer tres tipos de gráficos con ggplot2.
+Vamos a ver cómo hacer cuatro tipos de gráficos con ggplot2.
+
+##### ggplot2: lineplot ####
+```{r}
+# capa base
+ggplot(data = tmb[25:100,], aes(x = Mutation.Count, y = TMB..nonsynonymous.)) +
+geom_line() 
+
+# Personalizar etiquetas de los ejes
+ggplot(data = tmb[25:100,], aes(x = Mutation.Count, y = TMB..nonsynonymous.)) +
+  geom_line() +
+  labs(title = "Tumor Mutational Burden (Non-Synonymous) vs. Mutation Count", 
+       x = "Mutation Count", 
+       y = "Tumor Mutational Burden (Non-Synonymous)")
+```
+
 ##### ggplot2: boxplot  
 ```{r}
+# Capa base
+ggplot(data=tmb,
+       aes(x=Overall.Survival.Status,y=Overall.Survival..Months.)) + 
+  geom_boxplot() # Agregar capa de caja
 
+# Personalizar etiquetas de los ejes
 ggplot(data=tmb,
-        aes(x=Overall.Survival.Status,y=Overall.Survival..Months.))+
-  geom_boxplot()
-  
-ggplot(data=tmb,
-        aes(x=Overall.Survival.Status,y=Overall.Survival..Months.))+
+       aes(x=Overall.Survival.Status,y=Overall.Survival..Months.))+
   geom_boxplot() +
   labs(y="Supervivencia global (meses)",x=" ") +
   theme(text=element_text(size=10))
- 
+
+# Eliminar los outliers
 ggplot(data=tmb,
-        aes(x=Overall.Survival.Status,y=Overall.Survival..Months.))+
+       aes(x=Overall.Survival.Status,y=Overall.Survival..Months.))+
   geom_boxplot(outlier.shape = NA) +
   labs(y="Supervivencia global (meses)",x=" ") +
   theme(text=element_text(size=10))
-  
+
+# Añadir color en función de una tercera variable
+ggplot(data = tmb, aes(x = Overall.Survival.Status, y = Overall.Survival..Months., fill = factor(Overall.Survival.Status))) + 
+  geom_boxplot()
+
+# Editar colores manualmente
+ggplot(data = tmb, aes(x = Overall.Survival.Status, y = Overall.Survival..Months., fill = factor(Overall.Survival.Status))) + 
+  geom_boxplot() +
+  scale_fill_manual(values = c("0:LIVING" = "lightblue", "1:DECEASED" = "grey")) +
+  labs(title = "Overall Survival by Status", 
+       x = "Survival Status", 
+       y = "Overall Survival (Months)")
+
+# Editar nombre de la leyenda:
+ggplot(data = tmb, aes(x = Overall.Survival.Status, y = Overall.Survival..Months., fill = factor(Overall.Survival.Status))) + 
+  geom_boxplot() +
+  scale_fill_manual(values = c("0:LIVING" = "lightblue", "1:DECEASED" = "grey")) +
+  labs(title = "Overall Survival by Status", 
+       x = "Survival Status", 
+       y = "Overall Survival (Months)",
+       fill = "Survival Status" )# Capa base
 ggplot(data=tmb,
-        aes(x=Overall.Survival.Status,y=Overall.Survival..Months.),
-        fill=factor(Overall.Survival.Status))+
+       aes(x=Overall.Survival.Status,y=Overall.Survival..Months.)) + 
+  geom_boxplot() # Agregar capa de caja
+
+# Personalizar etiquetas de los ejes
+ggplot(data=tmb,
+       aes(x=Overall.Survival.Status,y=Overall.Survival..Months.))+
+  geom_boxplot() +
+  labs(y="Supervivencia global (meses)",x=" ") +
+  theme(text=element_text(size=10))
+
+# Eliminar los outliers
+ggplot(data=tmb,
+       aes(x=Overall.Survival.Status,y=Overall.Survival..Months.))+
+  geom_boxplot(outlier.shape = NA) +
+  labs(y="Supervivencia global (meses)",x=" ") +
+  theme(text=element_text(size=10))
+
+# Añadir color en función de una tercera variable
+ggplot(data = tmb, aes(x = Overall.Survival.Status, y = Overall.Survival..Months., fill = factor(Overall.Survival.Status))) + 
+  geom_boxplot()
+
+# Editar colores manualmente
+ggplot(data = tmb, aes(x = Overall.Survival.Status, y = Overall.Survival..Months., fill = factor(Overall.Survival.Status))) + 
+  geom_boxplot() +
+  scale_fill_manual(values = c("0:LIVING" = "lightblue", "1:DECEASED" = "grey")) +
+  labs(title = "Overall Survival by Status", 
+       x = "Survival Status", 
+       y = "Overall Survival (Months)")
+
+# Editar nombre de la leyenda:
+ggplot(data = tmb, aes(x = Overall.Survival.Status, y = Overall.Survival..Months., fill = factor(Overall.Survival.Status))) + 
+  geom_boxplot() +
+  scale_fill_manual(values = c("0:LIVING" = "lightblue", "1:DECEASED" = "grey")) +
+  labs(title = "Overall Survival by Status", 
+       x = "Survival Status", 
+       y = "Overall Survival (Months)",
+       fill = "Survival Status" )
+
+## R ggplot sheet ##
+       
+# Superponer plots:
+ggplot(data=tmb,
+       aes(x=Overall.Survival.Status,y=Overall.Survival..Months.)) +
+  geom_jitter(aes(colour=Overall.Survival.Status))+ # datos puntuales categoricos
+  theme(text=element_text(size=10))+
+  labs(y="Supervivencia global (meses)",x=" ")
+       
+ggplot(data=tmb,
+       aes(x=Overall.Survival.Status,y=Overall.Survival..Months.),
+       fill=factor(Overall.Survival.Status))+
   geom_boxplot()+
-  geom_jitter(aes(colour=Overall.Survival.Status))+
+  geom_jitter(aes(colour=Overall.Survival.Status))+ # datos puntuales categoricos
   theme(text=element_text(size=10))+
   labs(y="Supervivencia global (meses)",x=" ")
 
 ggplot(data=tmb,
-        aes(x=Overall.Survival.Status,y=Overall.Survival..Months.),
-        fill=factor(Overall.Survival.Status))+
+       aes(x=Overall.Survival.Status,y=Overall.Survival..Months.),
+       fill=factor(Overall.Survival.Status))+
   geom_boxplot(outlier.shape = NA)+
   geom_jitter(aes(colour=Overall.Survival.Status))+
   theme(text=element_text(size=10))+
@@ -423,46 +511,51 @@ ggplot(data=tmb,
 
 ##### ggplot2: dotplot  
 ```{r}
-## Mostrar los datos filtrados:
-ggplot(data=tmb[1:20,],
-        aes(y=Sample.coverage, x=Tumor.Purity, color=Sample.Type)) +
-  geom_point(size=3) +
+## Mostrar los datos filtrados: Dibujar un subconjunto de datos
+
+# Añadir leyenda con color: por defecto a la derecha
+ggplot(data=tmb[1:20,], 
+       aes(y=Sample.coverage, x=Tumor.Purity, color=Sample.Type)) +
+  geom_point(size=3) + # capa de puntos tamaño 3
   theme(text=element_text(size=10))+
   labs(y="Cobertura",x="Pureza Tumoral")
 
+# Posiciones de la leyenda 
 ggplot(data=tmb[1:20,],
-        aes(y=Sample.coverage, x=Tumor.Purity, color=Sample.Type)) +
+       aes(y=Sample.coverage, x=Tumor.Purity, color=Sample.Type)) +
   geom_point(size=3) +
   theme(text=element_text(size=10), legend.position = "bottom")+
   labs(y="Cobertura",x="Pureza Tumoral")
 
 ggplot(data=tmb[1:20,],
-        aes(y=Sample.coverage, x=Tumor.Purity, color=Sample.Type)) +
+       aes(y=Sample.coverage, x=Tumor.Purity, color=Sample.Type)) +
   geom_point(size=3) +
   theme(text=element_text(size=10), legend.position = "top")+
   labs(y="Cobertura",x="Pureza Tumoral")
 
 cols <- c("#55AD89", "#EF6F6A") ## cambiamos el color
 ggplot(data=tmb[1:20,],
-        aes(y=Sample.coverage, x=Tumor.Purity, color=Sample.Type)) +
+       aes(y=Sample.coverage, x=Tumor.Purity, color=Sample.Type)) +
   geom_point(size=3) +
   scale_color_manual(values = cols) +
-  theme(text=element_text(size=10), legend.position = c(0.1, 0.9))+
+  theme(text=element_text(size=10), legend.position = c(0.1, 0.9))+ # coordenadas de leyenda
   labs(y="Cobertura",x="Pureza Tumoral")
 
 ```
 
 ##### ggplot2: barplot  
 ```{r}
+# Capa base
 ggplot(data=tmb,
        aes(x=Cancer.Type, fill=Cancer.Type)) +
   geom_bar() 
 
 # The value of hjust (horizontal) and vjust (vertical) are only defined between 0 and 1:
 
-# 0 means left-justified
-# 1 means right-justified
+# 0 : justificado izquierda
+# 1 : justificado derecha
 
+# Orientación etiquetas eje X
 ggplot(data=tmb,
        aes(x=Cancer.Type, fill=Cancer.Type)) +
   geom_bar() +
@@ -474,6 +567,7 @@ ggplot(data=tmb,
   theme(axis.text.x = element_text(angle = 50, hjust=1)) +
   scale_fill_manual(values = topo.colors(11)) 
 
+# Barras Horizontales
 ggplot(data=tmb,
        aes(x=Cancer.Type, fill=Cancer.Type)) +
   geom_bar() +
@@ -482,8 +576,6 @@ ggplot(data=tmb,
   xlab("Tipo de Cancer") +
   ylab("Nº de Muestras") +
   ggtitle("Grafico de Barras", subtitle= "Taller de R CIB 2024")
-
-
 ```
 
 
@@ -496,7 +588,7 @@ Para guardar nuestros gráficos nos vamos a la pestaña "plots" y desde ahí lo 
 # ggsave(ruta_file_name,
 #        plot=last_plot(),
 #        device = "png")
-
+# help(ggsave)
 ```
 
 **PREGUNTA DIRIGIDA 3**. Os dejamos un rato para que hagáis un gráfico de barras para la variable Drug.Type. Queremos enseñar de forma gráfica cuál fue la inmunoterapia de elección más frecuente en esta cohorte.
