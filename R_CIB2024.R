@@ -181,7 +181,7 @@ library(ggplot2)
 ##### ggplot2: lineplot ####
 # capa base
 ggplot(data = tmb[25:100,], aes(x = Mutation.Count, y = TMB..nonsynonymous.)) +
-geom_line() 
+geom_line() #Agregar capa de linea
 
 # Personalizar etiquetas de los ejes
 ggplot(data = tmb[25:100,], aes(x = Mutation.Count, y = TMB..nonsynonymous.)) +
