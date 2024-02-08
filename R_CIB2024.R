@@ -176,10 +176,24 @@ age.bar<-barplot(age.freq,
 # install.packages("ggplot2") # Descomentar esta línea para instalarla
 library(ggplot2) 
 
+# lineplot | boxplot | dotplot | barplot
+
+##### ggplot2: lineplot ####
+# capa base
+ggplot(data = tmb[25:100,], aes(x = Mutation.Count, y = TMB..nonsynonymous.)) +
+geom_line() 
+
+# Personalizar etiquetas de los ejes
+ggplot(data = tmb[25:100,], aes(x = Mutation.Count, y = TMB..nonsynonymous.)) +
+  geom_line() +
+  labs(title = "Tumor Mutational Burden (Non-Synonymous) vs. Mutation Count", 
+       x = "Mutation Count", 
+       y = "Tumor Mutational Burden (Non-Synonymous)")
+
 ##### ggplot2: boxplot ####
 # Capa base
 ggplot(data=tmb,
-       aes(x=Overall.Survival.Status,y=Overall.Survival..Months.))+
+       aes(x=Overall.Survival.Status,y=Overall.Survival..Months.)) + 
   geom_boxplot() # Agregar capa de caja
 
 # Personalizar etiquetas de los ejes
@@ -197,11 +211,38 @@ ggplot(data=tmb,
   theme(text=element_text(size=10))
 
 # Añadir color en función de una tercera variable
+ggplot(data = tmb, aes(x = Overall.Survival.Status, y = Overall.Survival..Months., fill = factor(Overall.Survival.Status))) + 
+  geom_boxplot()
+
+# Editar colores manualmente
+ggplot(data = tmb, aes(x = Overall.Survival.Status, y = Overall.Survival..Months., fill = factor(Overall.Survival.Status))) + 
+  geom_boxplot() +
+  scale_fill_manual(values = c("0:LIVING" = "lightblue", "1:DECEASED" = "grey")) +
+  labs(title = "Overall Survival by Status", 
+       x = "Survival Status", 
+       y = "Overall Survival (Months)")
+
+# Editar nombre de la leyenda:
+ggplot(data = tmb, aes(x = Overall.Survival.Status, y = Overall.Survival..Months., fill = factor(Overall.Survival.Status))) + 
+  geom_boxplot() +
+  scale_fill_manual(values = c("0:LIVING" = "lightblue", "1:DECEASED" = "grey")) +
+  labs(title = "Overall Survival by Status", 
+       x = "Survival Status", 
+       y = "Overall Survival (Months)",
+       fill = "Survival Status" )
+       
+# Superponer plots:
+ggplot(data=tmb,
+       aes(x=Overall.Survival.Status,y=Overall.Survival..Months.)) +
+  geom_jitter(aes(colour=Overall.Survival.Status))+ # datos puntuales categoricos
+  theme(text=element_text(size=10))+
+  labs(y="Supervivencia global (meses)",x=" ")
+       
 ggplot(data=tmb,
        aes(x=Overall.Survival.Status,y=Overall.Survival..Months.),
        fill=factor(Overall.Survival.Status))+
   geom_boxplot()+
-  geom_jitter(aes(colour=Overall.Survival.Status))+
+  geom_jitter(aes(colour=Overall.Survival.Status))+ # datos puntuales categoricos
   theme(text=element_text(size=10))+
   labs(y="Supervivencia global (meses)",x=" ")
 
@@ -216,6 +257,7 @@ ggplot(data=tmb,
 
 ##### ggplot2: dotplot ####
 ## Mostrar los datos filtrados: Dibujar un subconjunto de datos
+
 # Añadir leyenda con color: por defecto a la derecha
 ggplot(data=tmb[1:20,], 
        aes(y=Sample.coverage, x=Tumor.Purity, color=Sample.Type)) +
