@@ -304,7 +304,12 @@ sex.bar<-barplot(sex.freq,
         ) # Un poco más bonito
 text(x=sex.bar, y=sex.freq+20,
      labels=paste0(round(sex.freq/sum(sex.freq)*100),"%") ,cex=1)
+```
 
+#### El color en los gráficos  
+Para cambiar los colores de nuestros gráficos R cuenta con varios recursos. Si hacéis una búsqueda en internet de "R color sheet" os encontraréis un pequeño manual con todas las posibilidades. Vamos a ver algunas de ellas.
+
+```{r, fig.align=TRUE,fig.height=5}
 # Edad
 age.freq<-table(tmb$Age.Group.at.Diagnosis.in.Years)[c(1,3,4,5,2)]
 age.bar<-barplot(age.freq,
@@ -315,19 +320,6 @@ age.bar<-barplot(age.freq,
                  cex.names=0.6
 )
 text(age.bar, age.freq+20, paste0(round(age.freq/sum(age.freq)*100), "%") ,cex=1)
-```
-
-#### El color en los gráficos  
-Para cambiar los colores de nuestros gráficos R cuenta con varios recursos. Si hacéis una búsqueda en internet de "R color sheet" os encontraréis un pequeño manual con todas las posibilidades. Vamos a ver algunas de ellas.
-
-```{r, fig.align=TRUE,fig.height=5}
-age.bar<-barplot(age.freq,
-        col=c("#FF99FF","#0066FF","#00FF4D","#FF9900", "#AA4371"), # 1 color por grupo, 5 grupos
-        xlab="Edad al diagnóstico (años)",
-        ylab="Número de pacientes",
-        ylim = c(0,max(age.freq)+30),
-        cex.names=0.6
-        )
 ```
 
 ##### Colores predeterminados:  
