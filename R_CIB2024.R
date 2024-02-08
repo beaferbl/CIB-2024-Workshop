@@ -230,6 +230,8 @@ ggplot(data = tmb, aes(x = Overall.Survival.Status, y = Overall.Survival..Months
        x = "Survival Status", 
        y = "Overall Survival (Months)",
        fill = "Survival Status" )
+
+## R ggplot sheet ##
        
 # Superponer plots:
 ggplot(data=tmb,
