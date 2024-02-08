@@ -156,9 +156,9 @@ age.bar<-barplot(age.freq,
 ##### Paletas predefinidas ####
 # install.packages("RColorBrewer") # descomentar para instalar
 library(RColorBrewer) # R color brewer cheat sheet
-display.brewer.all(colorblindFriendly = TRUE)
 
 # R color brewer cheat sheet (nombres de las paletas y opciones de colores)
+display.brewer.all(colorblindFriendly = TRUE)
 
 # Edad
 age.freq<-table(tmb$Age.Group.at.Diagnosis.in.Years)[c(1,3,4,5,2)]
