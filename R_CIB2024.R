@@ -131,6 +131,7 @@ sex.bar<-barplot(sex.freq,
 text(x=sex.bar, y=sex.freq+20,
      labels=paste0(round(sex.freq/sum(sex.freq)*100),"%") ,cex=1) # Etiqueta de porcentaje
 
+#### El color en los gráficos ####
 # Edad
 age.freq<-table(tmb$Age.Group.at.Diagnosis.in.Years)[c(1,3,4,5,2)]
 age.bar<-barplot(age.freq,
@@ -142,7 +143,6 @@ age.bar<-barplot(age.freq,
 )
 text(age.bar, age.freq+20, paste0(round(age.freq/sum(age.freq)*100), "%") ,cex=1)
 
-#### El color en los gráficos ####
 ##### Colores predeterminados ####
 # heat.colors(), topo.colors(), terrain.colors(),rainbow(),
 age.bar<-barplot(age.freq,
